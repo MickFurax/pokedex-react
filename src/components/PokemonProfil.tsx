@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 import Evolution from "./Evolution";
+import { IEvolutionChain } from "../interfaces/Evolution/EvolutionChain";
 
 type PokemonType =
   | "normal"
@@ -30,30 +31,33 @@ interface Props {
   profil?: IPokemonSpecies;
 }
 
+// Color of each Pokemon type
+const typeColorMap = {
+  normal: "#9CA3AF",
+  fighting: "#A1A1AA",
+  flying: "#38BDF8",
+  poison: "#A78BFA",
+  ground: "#D97706",
+  rock: "#9CA3AF",
+  bug: "#A3E635",
+  ghost: "#94A3B8",
+  steel: "#A8A29E",
+  fire: "#F87171",
+  water: "#60A5FA",
+  grass: "#4ADE80",
+  electric: "#FACC15",
+  psychic: "#E879F9",
+  ice: "#22D3EE",
+  dragon: "#808CF8",
+  dark: "#A3A3A3",
+  fairy: "#FB7185",
+};
+
 const PokemonProfil = (props: Props) => {
   const { result } = props;
 
-  // Color of each Pokemon type
-  const typeColorMap = {
-    normal: "#9CA3AF",
-    fighting: "#A1A1AA",
-    flying: "#38BDF8",
-    poison: "#A78BFA",
-    ground: "#D97706",
-    rock: "#9CA3AF",
-    bug: "#A3E635",
-    ghost: "#94A3B8",
-    steel: "#A8A29E",
-    fire: "#F87171",
-    water: "#60A5FA",
-    grass: "#4ADE80",
-    electric: "#FACC15",
-    psychic: "#E879F9",
-    ice: "#22D3EE",
-    dragon: "#808CF8",
-    dark: "#A3A3A3",
-    fairy: "#FB7185",
-  };
+  const [profil, setProfil] = useState<IPokemonSpecies>();
+  const [evolution, setEvolution] = useState<IEvolutionChain>();
 
   const sprite = result?.sprites?.front_default;
   const name = result?.name;
@@ -61,8 +65,6 @@ const PokemonProfil = (props: Props) => {
   const types: PokemonType[] | undefined = result?.types.map(
     (e) => e.type?.name as unknown as PokemonType
   );
-
-  const [profil, setProfil] = useState<IPokemonSpecies>();
 
   useEffect(() => {
     axios
@@ -82,6 +84,18 @@ const PokemonProfil = (props: Props) => {
 
   const spriteColor = typeColorMap[types?.[0] || "normal"];
 
+  // Evolution
+
+  useEffect(() => {
+    if (!profil) {
+      return;
+    }
+    axios.get<IEvolutionChain>(profil.evolution_chain.url).then((res) => {
+      setEvolution(res.data);
+      console.log(res.data);
+    });
+  }, [profil]);
+
   return (
     <div>
       <div
@@ -89,11 +103,17 @@ const PokemonProfil = (props: Props) => {
         style={{ backgroundColor: spriteColor }}
       >
         <div className="flex items-center">
-          <img src={sprite} alt={result?.name} className="md:h-72 md:w-72 sm:h-52 sm:w-52  h-32 w-32  sprite" />
+          <img
+            src={sprite}
+            alt={result?.name}
+            className="md:h-72 md:w-72 sm:h-52 sm:w-52  h-32 w-32  sprite"
+          />
           <div className="capitalize">
             <span className="text-3xl font-semibold text-white flex flex-row md:text-7xl sm:text-6xl">
               <p>{name}</p>
-              <p className="opacity-[.125] text-black pl-4 md:pl-8 sm:pl-5">#{id}</p>
+              <p className="opacity-[.125] text-black pl-4 md:pl-8 sm:pl-5">
+                #{id}
+              </p>
             </span>
             <div className="mt-0 flex gap-3 md:mt-2 sm:mt-1">
               {types?.map((pokemonType) => (
@@ -118,7 +138,16 @@ const PokemonProfil = (props: Props) => {
           <h1 className="font-medium text-2xl">Description</h1>
           <p className="m-3">{descrition}</p>
         </div>
-        <Evolution result={result} profil={profil}/>
+        <div>
+          <h1 className="font-medium text-2xl">Evolution</h1>
+          <div className="m-3">
+            <Evolution
+              result={result}
+              profil={profil}
+              evolution={evolution}
+            />
+          </div>
+        </div>
       </main>
     </div>
   );
