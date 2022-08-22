@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sprite {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.png {
+  opacity: 0.3;
+}
+
+.pngActive {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
