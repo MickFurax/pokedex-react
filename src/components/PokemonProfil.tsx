@@ -5,6 +5,7 @@ import axios from "axios";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 import Evolution from "./Evolution";
 import { IEvolutionChain } from "../interfaces/Evolution/EvolutionChain";
+import Sprite from "./Sprite";
 
 type PokemonType =
   | "normal"
@@ -59,13 +60,7 @@ const PokemonProfil = (props: Props) => {
   const [profil, setProfil] = useState<IPokemonSpecies>();
   const [evolution, setEvolution] = useState<IEvolutionChain>();
 
-  const sprite = result?.sprites?.front_default;
-  const name = result?.name;
-  const id = result?.id;
-  const types: PokemonType[] | undefined = result?.types.map(
-    (e) => e.type?.name as unknown as PokemonType
-  );
-
+ 
   useEffect(() => {
     axios
       .get<IPokemonSpecies>(
@@ -74,7 +69,7 @@ const PokemonProfil = (props: Props) => {
       .then((res) => {
         setProfil(res.data);
       });
-  }, [id]);
+  }, [result?.id]);
 
   const descrition = profil?.flavor_text_entries
     .filter((e) => e.language.name == "en")[0]
@@ -82,10 +77,8 @@ const PokemonProfil = (props: Props) => {
     .replace("\f", " ")
     .replace("POKéMON", "POKÉMON");
 
-  const spriteColor = typeColorMap[types?.[0] || "normal"];
 
   // Evolution
-
   useEffect(() => {
     if (!profil) {
       return;
@@ -96,6 +89,16 @@ const PokemonProfil = (props: Props) => {
     });
   }, [profil]);
 
+  const sprite = result?.sprites?.front_default;
+  const name = result?.name;
+  const id = result?.id;
+  const types: PokemonType[] | undefined = result?.types.map(
+    (e) => e.type?.name as unknown as PokemonType
+  );
+
+  const spriteColor = typeColorMap[types?.[0] || "normal"];
+
+
   return (
     <div>
       <div
@@ -103,11 +106,7 @@ const PokemonProfil = (props: Props) => {
         style={{ backgroundColor: spriteColor }}
       >
         <div className="flex items-center">
-          <img
-            src={sprite}
-            alt={result?.name}
-            className="md:h-72 md:w-72 sm:h-52 sm:w-52  h-32 w-32  sprite"
-          />
+          <Sprite name={name}/>
           <div className="capitalize">
             <span className="text-3xl font-semibold text-white flex flex-row md:text-7xl sm:text-6xl">
               <p>{name}</p>
@@ -119,7 +118,8 @@ const PokemonProfil = (props: Props) => {
               {types?.map((pokemonType) => (
                 <div
                   key={id}
-                  className="mt-2 bg-white w-min p-1 pr-3 sm:pr-4 rounded-full flex items-center text-xs md:text-base sm:text-sm "
+                  className="
+                  bg-white w-min p-1 pr-3 sm:pr-4 rounded-full flex items-center text-xs md:text-base sm:text-sm "
                 >
                   <div
                     className="w-3 h-3 rounded-full mx-1 md:mx-2"
@@ -141,11 +141,7 @@ const PokemonProfil = (props: Props) => {
         <div>
           <h1 className="font-medium text-2xl">Evolution</h1>
           <div className="m-3">
-            <Evolution
-              result={result}
-              profil={profil}
-              evolution={evolution}
-            />
+            <Evolution result={result} profil={profil} evolution={evolution} />
           </div>
         </div>
       </main>

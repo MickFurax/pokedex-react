@@ -22,7 +22,7 @@ const Navbar = (props: Props) => {
   };
 
   return (
-    <div className="bg-white w-screen h-24 flex items-center justify-between px-8 ">
+    <div className="bg-white w-auto h-24 flex items-center justify-between px-8 ">
       <div className=" text-red-500 text-3xl hidden sm:block md:block">
         <strong>Poké</strong>dex
       </div>
