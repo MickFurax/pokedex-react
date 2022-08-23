@@ -18,14 +18,18 @@ const Evolution = (props: Props) => {
   const species = evolution?.chain?.species?.name;
   const evolutionArray = evolution?.chain?.evolves_to;
 
+  const spriteFunction = (name: string) => {
+    
+  }
+
   return (
     <div>
-      <div>
-        {evolution?.chain?.species?.name} evolve to
+      <div className="flex">
+        {species} {">"}
         {evolutionArray?.map((e) => {
           return (
-            <div>
-              {e.species?.name} {e.evolves_to.length > 0 ? "evolve to" : " "}
+            <div >
+              {e.species?.name} {e.evolves_to.length > 0 ? ">" : " "}
               {e.evolves_to.map((j) => (
                 <div>{j.species?.name}</div>
               ))}
