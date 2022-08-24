@@ -60,7 +60,6 @@ const PokemonProfil = (props: Props) => {
   const [profil, setProfil] = useState<IPokemonSpecies>();
   const [evolution, setEvolution] = useState<IEvolutionChain>();
 
- 
   useEffect(() => {
     axios
       .get<IPokemonSpecies>(
@@ -76,7 +75,6 @@ const PokemonProfil = (props: Props) => {
     .flavor_text?.replace("\n", " ")
     .replace("\f", " ")
     .replace("POKéMON", "POKÉMON");
-
 
   // Evolution
   useEffect(() => {
@@ -98,7 +96,6 @@ const PokemonProfil = (props: Props) => {
 
   const spriteColor = typeColorMap[types?.[0] || "normal"];
 
-
   return (
     <div>
       <div
@@ -106,7 +103,11 @@ const PokemonProfil = (props: Props) => {
         style={{ backgroundColor: spriteColor }}
       >
         <div className="flex items-center">
-          <Sprite name={name}/>
+          <img
+            src={sprite}
+            alt={name}
+            className="md:h-72 md:w-72 sm:h-52 sm:w-52 h-32 w-32 sprite shrink-0"
+          />
           <div className="capitalize">
             <span className="text-3xl font-semibold text-white flex flex-row md:text-7xl sm:text-6xl">
               <p>{name}</p>
@@ -117,7 +118,7 @@ const PokemonProfil = (props: Props) => {
             <div className="mt-0 flex gap-3 md:mt-2 sm:mt-1">
               {types?.map((pokemonType) => (
                 <div
-                  key={id}
+                  key={pokemonType}
                   className="
                   bg-white w-min p-1 pr-3 sm:pr-4 rounded-full flex items-center text-xs md:text-base sm:text-sm "
                 >
@@ -133,7 +134,7 @@ const PokemonProfil = (props: Props) => {
         </div>
         <Status />
       </div>
-      <main className="m-10 text-slate-800">
+      <main className="md:m-10 sm:m-6 m-3 text-slate-800">
         <div className="mt-2">
           <h1 className="font-medium text-2xl">Description</h1>
           <p className="m-3">{descrition}</p>

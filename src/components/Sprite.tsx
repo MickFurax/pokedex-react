@@ -23,7 +23,7 @@ const Sprite = (props: Props) => {
     <img
       src={sprite?.sprites?.front_default}
       alt={name}
-      className="md:h-72 md:w-72 sm:h-52 sm:w-52  h-32 w-32  sprite shrink-0"
+      className="lg:h-56 lg:w-56 sm:h-32 sm:w-32 h-20 w-20 sprite shrink-0"
     />
   );
 };
