@@ -21,6 +21,7 @@ const Evolution = (props: Props) => {
   const evolutionArray = evolution?.chain?.evolves_to;
 
   const spriteFunction = (name: string) => {};
+  console.log(evolution?.chain.evolves_to); 
 
   return (
     <div className="flex items-center text-center capitalize p-3 max-w-full bg-slate-100 rounded overflow-x-auto">
@@ -29,9 +30,11 @@ const Evolution = (props: Props) => {
           <Sprite name={species} />
           <p className="mb-2">{species}</p>
         </div>{" "}
-        <div className="mx-2">
-          <ArrowRightCircle className="icon text-slate-500 md:h-8 md:w-8 sm:h-7 sm:w-7 h-6 w-6" />
-        </div>
+        {evolution?.chain.evolves_to[0] && (
+          <div className="mx-2">
+            <ArrowRightCircle className="icon text-slate-500 md:h-8 md:w-8 sm:h-7 sm:w-7 h-6 w-6" />
+          </div>
+        )}
         <div className="flex flex-row  w-full items-center mr-auto">
           {evolutionArray?.map((e) => {
             return (

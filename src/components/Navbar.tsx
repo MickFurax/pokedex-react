@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Search } from "react-feather";
+import { useNavigate } from "react-router-dom";
 
-interface Props {
-  search: (value: string) => void;
-}
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const [value, setValue] = useState("");
-
-  const { search } = props;
+  const navigate = useNavigate();
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setValue(e.currentTarget.value);
@@ -17,16 +13,28 @@ const Navbar = (props: Props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (value !== "") {
-      search(value);
+      // Execute search
+      navigate(`${value}`);
     }
   };
 
+  const home = () => {
+    setValue("");
+    navigate("/");
+  };
+
   return (
-    <div className="bg-white w-auto h-24 flex items-center justify-between px-8 ">
-      <div className=" text-red-500 text-3xl hidden sm:block md:block">
+    <div className="bg-white w-auto h-24 flex items-center justify-between px-8 sticky top-0 z-40">
+      <button
+        onClick={home}
+        className=" text-red-500 text-3xl hidden sm:block md:block"
+      >
         <strong>Poké</strong>dex
-      </div>
-      <form onSubmit={handleSubmit} className="relative block mr-6 md:mr-0 sm:mr-0">
+      </button>
+      <form
+        onSubmit={handleSubmit}
+        className="relative block mr-6 md:mr-0 sm:mr-0"
+      >
         <span className="absolute inset-y-0 left-0 flex items-center pl-2">
           <Search className="text-red-500" />
         </span>
@@ -36,6 +44,7 @@ const Navbar = (props: Props) => {
           type="text"
           name="search"
           onChange={handleChange}
+          value={value}
         />
       </form>
       <div className="gap-6 flex">

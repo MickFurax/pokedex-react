@@ -1,0 +1,21 @@
+// Color of each Pokemon type
+export const typeColorMap = {
+  normal: "#9CA3AF",
+  fighting: "#A1A1AA",
+  flying: "#38BDF8",
+  poison: "#A78BFA",
+  ground: "#D97706",
+  rock: "#9CA3AF",
+  bug: "#A3E635",
+  ghost: "#94A3B8",
+  steel: "#A8A29E",
+  fire: "#F87171",
+  water: "#60A5FA",
+  grass: "#4ADE80",
+  electric: "#FACC15",
+  psychic: "#E879F9",
+  ice: "#22D3EE",
+  dragon: "#808CF8",
+  dark: "#A3A3A3",
+  fairy: "#FB7185",
+};
