@@ -5,6 +5,7 @@ import { getPokemon, getPokemonSpecies } from "../services/pokemon";
 import { typeColorMap } from "../constants/pokemon";
 import type { PokemonType } from "../types/pokemon";
 import Status from "./Status";
+import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 
 interface Props {
   id?: number | string;
@@ -13,7 +14,7 @@ interface Props {
 const Cart = (props: Props) => {
   const { id } = props;
 
-  const [name, setName] = useState("");
+  const [result, setResult] = useState<IPokemonSpecies>();
   const [sprite, setSprite] = useState("");
   const [types, setTypes] = useState<PokemonType[]>();
 
@@ -22,7 +23,7 @@ const Cart = (props: Props) => {
       return;
     }
     getPokemonSpecies(id).then((res) => {
-      setName(res.name);
+      setResult(res);
     });
     getPokemon(id).then((res) => {
       setSprite(res.sprites?.front_default);
@@ -41,14 +42,14 @@ const Cart = (props: Props) => {
         <div className="flex items-center">
           <img
             src={sprite}
-            alt={name}
+            alt={result?.name}
             className="md:h-60 md:w-60 sm:h-48 sm:w-48 h-28 w-28 sprite shrink-0"
           />
           <div className="capitalize mb-2">
             <span className="text-3xl font-semibold text-white flex flex-row md:text-7xl sm:text-6xl">
-              <p>{name}</p>
+              <p>{result?.name}</p>
               <p className="opacity-[.125] text-black pl-4 md:pl-8 sm:pl-5">
-                #{id}
+                #{result?.id}
               </p>
             </span>
             <div className="flex gap-3 md:mt-2 sm:mt-1 mt-2">

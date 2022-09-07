@@ -1,6 +1,6 @@
 import axios from "axios";
 import { IPokedex } from "../interfaces/Games/Pokedex";
-import { IPokemon } from "../interfaces/Pokemon/Pokemon";
+import { IPokemon, IPokemonList } from "../interfaces/Pokemon/Pokemon";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 
 export const getPokemonSpecies = async (id: string | number) => {
@@ -17,9 +17,15 @@ export const getPokemon = async (id: string | number) => {
   return result.data;
 };
 
-export const getPokedex = async (id: number) => {
-  const result = await axios.get<IPokedex>(
-    `https://pokeapi.co/api/v2/pokedex/${id}/`
+export const getPokemonList = async (page: number) => {
+  const result = await axios.get<IPokemonList>(
+    `https://pokeapi.co/api/v2/pokemon/`,
+    {
+      params: {
+        offset: page * 20,
+        limit: 20,
+      },
+    }
   );
   return result.data;
 };

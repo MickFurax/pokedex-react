@@ -1,25 +1,61 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cart from "../components/Cart";
-import { IPokedex } from "../interfaces/Games/Pokedex";
-import { getPokedex } from "../services/pokemon";
+import { IPokemonList } from "../interfaces/Pokemon/Pokemon";
+import { getPokemon, getPokemonList } from "../services/pokemon";
 
 const Homepage = () => {
-  const [pokedex, setPokedex] = useState<IPokedex>();
+  const [pokemonList, setPokemonList] = useState<IPokemonList>();
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    getPokedex(5).then((res) => {
-      setPokedex(res);
+    getPokemonList(page).then((res) => {
+      setPokemonList(res);
       console.log(res);
     });
-  }, []);
+    console.log(page);
+  }, [page]);
 
+  const handleNext = () => {
+    console.log(page);
+
+    setPage((oldPage) => oldPage + 1);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  const handlePrevious = () => {
+    console.log(page);
+
+    setPage((oldPage) => oldPage - 1);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <div>
       <div>
-        {pokedex?.pokemon_entries.slice(0, 20).map((e) => (
-          <Cart id={(e.entry_number)} />
+        {pokemonList?.results.map((result) => (
+          <Cart id={result.name} />
         ))}
+      </div>
+      <div className="my-6 gap-8 flex justify-center">
+        {page <= 1 && (
+          <button
+            className="bg-white text-red-500 border-red-500 border hover:text-white hover:bg-red-500 w-28 py-1 rounded"
+            onClick={handlePrevious}
+          >
+            Previous
+          </button>
+        )}
+        <button
+          className="bg-red-500 text-white w-28 py-1 rounded hover:bg-red-600"
+          onClick={handleNext}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
