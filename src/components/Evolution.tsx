@@ -6,6 +6,7 @@ import { IEvolutionChain } from "../interfaces/Evolution/EvolutionChain";
 import { IPokemon } from "../interfaces/Pokemon/Pokemon";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 import Sprite from "./Sprite";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   result?: IPokemon;
@@ -15,18 +16,30 @@ interface Props {
 
 const Evolution = (props: Props) => {
   const { evolution, result } = props;
+  const navigate = useNavigate();
 
   const evolutionID = evolution?.id;
   const species = evolution?.chain?.species?.name;
   const evolutionArray = evolution?.chain?.evolves_to;
 
   const spriteFunction = (name: string) => {};
-  console.log(evolution?.chain.evolves_to); 
+  console.log(evolution?.chain.evolves_to);
+
+  const Detail = (name: string | undefined) => {
+    navigate(`/${name}`);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <div className="flex items-center text-center capitalize p-3 max-w-full bg-slate-100 rounded overflow-x-auto">
       <div className="mx-auto flex items-center">
-        <div className="flex flex-col shrink-0 ml-auto">
+        <div
+          className="flex flex-col shrink-0 ml-auto cursor-pointer"
+          onClick={() => Detail(species)}
+        >
           <Sprite name={species} />
           <p className="mb-2">{species}</p>
         </div>{" "}
@@ -39,7 +52,10 @@ const Evolution = (props: Props) => {
           {evolutionArray?.map((e) => {
             return (
               <>
-                <div className="flex flex-col shrink-0">
+                <div
+                  className="flex flex-col shrink-0 cursor-pointer"
+                  onClick={() => Detail(e.species.name)}
+                >
                   <Sprite name={e.species?.name} />
                   <p className="mb-2">{e.species?.name}</p>
                 </div>
@@ -50,7 +66,10 @@ const Evolution = (props: Props) => {
                 </div>
                 <div className="flex flex-row">
                   {e.evolves_to.map((j) => (
-                    <div className="flex flex-col mx-2 shrink-0">
+                    <div
+                      className="flex flex-col mx-2 shrink-0 cursor-pointer"
+                      onClick={() => Detail(e.species.name)}
+                    >
                       <Sprite name={j.species?.name} />
                       <p className="mb-2">{j.species?.name}</p>
                     </div>

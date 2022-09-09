@@ -8,6 +8,7 @@ const Homepage = () => {
   const [pokemonList, setPokemonList] = useState<IPokemonList>();
   const [page, setPage] = useState(0);
 
+
   useEffect(() => {
     getPokemonList(page).then((res) => {
       setPokemonList(res);
@@ -34,6 +35,8 @@ const Homepage = () => {
       behavior: "smooth",
     });
   };
+
+  
   return (
     <div>
       <div>

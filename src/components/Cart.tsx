@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { getPokemon, getPokemonSpecies } from "../services/pokemon";
 import { typeColorMap } from "../constants/pokemon";
+import { useNavigate } from "react-router-dom";
 import type { PokemonType } from "../types/pokemon";
 import Status from "./Status";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
@@ -17,6 +18,7 @@ const Cart = (props: Props) => {
   const [result, setResult] = useState<IPokemonSpecies>();
   const [sprite, setSprite] = useState("");
   const [types, setTypes] = useState<PokemonType[]>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) {
@@ -33,13 +35,20 @@ const Cart = (props: Props) => {
 
   const spriteColor = typeColorMap[types?.[0] || "normal"];
 
+  const Detail = (id: number | undefined) => {
+    navigate(`/${id}`);
+  };
+
   return (
     <div className="mb-px">
       <div
         className="flex justify-between"
         style={{ backgroundColor: spriteColor }}
       >
-        <div className="flex items-center">
+        <div
+          className="flex items-center cursor-pointer"
+          onClick={() => Detail(result?.id)}
+        >
           <img
             src={sprite}
             alt={result?.name}
