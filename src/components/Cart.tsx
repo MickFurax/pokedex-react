@@ -9,7 +9,7 @@ import Status from "./Status";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 
 interface Props {
-  id?: number | string;
+  id: number | string;
 }
 
 const Cart = (props: Props) => {
@@ -78,7 +78,7 @@ const Cart = (props: Props) => {
             </div>
           </div>
         </div>
-        <Status />
+        <Status id={id}/>
       </div>
     </div>
   );

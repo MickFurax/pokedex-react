@@ -3,16 +3,16 @@ import { IPokedex } from "../interfaces/Games/Pokedex";
 import { IPokemon, IPokemonList } from "../interfaces/Pokemon/Pokemon";
 import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
 
-export const getPokemonSpecies = async (id: string | number) => {
+export const getPokemonSpecies = async (identification: string | number) => {
   const result = await axios.get<IPokemonSpecies>(
-    `https://pokeapi.co/api/v2/pokemon-species/${id}`
+    `https://pokeapi.co/api/v2/pokemon-species/${identification}`
   );
   return result.data;
 };
 
-export const getPokemon = async (id: string | number) => {
+export const getPokemon = async (identification: string | number) => {
   const result = await axios.get<IPokemon>(
-    `https://pokeapi.co/api/v2/pokemon/${id}`
+    `https://pokeapi.co/api/v2/pokemon/${identification}`
   );
   return result.data;
 };

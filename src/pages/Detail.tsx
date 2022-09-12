@@ -19,6 +19,10 @@ const Detail = () => {
     });
   }, [id]);
 
+  if (result == undefined) {
+    return null;
+  }
+
   return (
     <main>
       <PokemonProfil result={result} />

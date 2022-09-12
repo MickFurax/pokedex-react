@@ -1,32 +1,41 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRightCircle } from "react-feather";
-import { IEvolutionChain } from "../interfaces/Evolution/EvolutionChain";
+import { IEvolutionChain } from "../../interfaces/Evolution/EvolutionChain";
 
-import { IPokemon } from "../interfaces/Pokemon/Pokemon";
-import { IPokemonSpecies } from "../interfaces/Pokemon/PokemonSpecies";
-import Sprite from "./Sprite";
 import { useNavigate } from "react-router-dom";
+import { getPokemonSpecies } from "../../services/pokemon";
+import Item from "./Item";
 
 interface Props {
-  result?: IPokemon;
-  profil?: IPokemonSpecies;
-  evolution?: IEvolutionChain;
+  id: number;
 }
 
 const Evolution = (props: Props) => {
-  const { evolution, result } = props;
+  const { id } = props;
   const navigate = useNavigate();
+  const [evolution, setEvolution] = useState<IEvolutionChain>();
 
-  const evolutionID = evolution?.id;
+  useEffect(() => {
+    getPokemonSpecies(id).then((res) => {
+      if (res.evolution_chain == null) {
+        return;
+      }
+      axios.get<IEvolutionChain>(res.evolution_chain.url).then((res) => {
+        setEvolution(res.data);
+        console.log(res.data);
+      });
+    });
+  }, [id]);
+
   const species = evolution?.chain?.species?.name;
   const evolutionArray = evolution?.chain?.evolves_to;
 
   const spriteFunction = (name: string) => {};
   console.log(evolution?.chain.evolves_to);
 
-  const Detail = (name: string | undefined) => {
-    navigate(`/${name}`);
+  const Detail = (targetId: number) => {
+    navigate(`/${targetId}`);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -36,13 +45,7 @@ const Evolution = (props: Props) => {
   return (
     <div className="flex items-center text-center capitalize p-3 max-w-full bg-slate-100 rounded overflow-x-auto">
       <div className="mx-auto flex items-center">
-        <div
-          className="flex flex-col shrink-0 ml-auto cursor-pointer"
-          onClick={() => Detail(species)}
-        >
-          <Sprite name={species} />
-          <p className="mb-2">{species}</p>
-        </div>{" "}
+        <Item identification={species} />
         {evolution?.chain.evolves_to[0] && (
           <div className="mx-2">
             <ArrowRightCircle className="icon text-slate-500 md:h-8 md:w-8 sm:h-7 sm:w-7 h-6 w-6" />
@@ -52,13 +55,8 @@ const Evolution = (props: Props) => {
           {evolutionArray?.map((e) => {
             return (
               <>
-                <div
-                  className="flex flex-col shrink-0 cursor-pointer"
-                  onClick={() => Detail(e.species.name)}
-                >
-                  <Sprite name={e.species?.name} />
-                  <p className="mb-2">{e.species?.name}</p>
-                </div>
+                <Item identification={e.species.name} />
+
                 <div className="mx-2">
                   {e.evolves_to.length > 0 && (
                     <ArrowRightCircle className="icon text-slate-500 md:h-8 md:w-8 sm:h-7 sm:w-7 h-6 w-6" />
@@ -66,13 +64,7 @@ const Evolution = (props: Props) => {
                 </div>
                 <div className="flex flex-row">
                   {e.evolves_to.map((j) => (
-                    <div
-                      className="flex flex-col mx-2 shrink-0 cursor-pointer"
-                      onClick={() => Detail(e.species.name)}
-                    >
-                      <Sprite name={j.species?.name} />
-                      <p className="mb-2">{j.species?.name}</p>
-                    </div>
+                    <Item identification={j.species.name} />
                   ))}
                 </div>
               </>

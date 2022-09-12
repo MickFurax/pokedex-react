@@ -11,24 +11,28 @@ import Status from "./Status";
 import Evolution from "./Evolution";
 
 interface Props {
-  result?: IPokemon;
+  result: IPokemon;
   profil?: IPokemonSpecies;
 }
 
 const PokemonProfil = (props: Props) => {
-  const { result } = props;
+  const { result} = props;
 
   const [profil, setProfil] = useState<IPokemonSpecies>();
-  const [evolution, setEvolution] = useState<IEvolutionChain>();
+
+  if (result== undefined) {
+    return null;
+  }
+
 
   useEffect(() => {
-    if (!result?.id) {
+    if (!result.id) {
       return;
     }
-    getPokemonSpecies(result?.id).then((res) => {
+    getPokemonSpecies(result.id).then((res) => {
       setProfil(res);
     });
-  }, [result?.id]);
+  }, [result.id]);
 
   const descrition = profil?.flavor_text_entries
     .filter((e) => e.language.name == "en")[0]
@@ -36,24 +40,13 @@ const PokemonProfil = (props: Props) => {
     .replace("\f", " ")
     .replace("POKéMON", "POKÉMON");
 
-  // Evolution
-  useEffect(() => {
-    if (!profil) {
-      return;
-    }
-    if (profil.evolution_chain == null) {
-      return;
-    }
-    axios.get<IEvolutionChain>(profil.evolution_chain.url).then((res) => {
-      setEvolution(res.data);
-      console.log(res.data);
-    });
-  }, [profil]);
 
-  const sprite = result?.sprites?.front_default;
-  const name = result?.name;
-  const id = result?.id;
-  const types: PokemonType[] | undefined = result?.types.map(
+
+  
+  const sprite = result.sprites?.front_default;
+  const name = result.name;
+  const id = result.id;
+  const types: PokemonType[] | undefined = result.types.map(
     (e) => e.type?.name as unknown as PokemonType
   );
 
@@ -95,7 +88,7 @@ const PokemonProfil = (props: Props) => {
             </div>
           </div>
         </div>
-        <Status />
+        <Status id={id} />
       </div>
       <main className="md:m-10 sm:m-6 m-3 text-slate-800">
         <div className="mt-2">
@@ -105,7 +98,7 @@ const PokemonProfil = (props: Props) => {
         <div>
           <h1 className="font-medium text-2xl">Evolution</h1>
           <div className="m-3">
-            <Evolution result={result} profil={profil} evolution={evolution} />
+            <Evolution id={id}/>
           </div>
         </div>
       </main>

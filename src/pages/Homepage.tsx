@@ -45,7 +45,7 @@ const Homepage = () => {
         ))}
       </div>
       <div className="my-6 gap-8 flex justify-center">
-        {page <= 1 && (
+        {page >= 1 && (
           <button
             className="bg-white text-red-500 border-red-500 border hover:text-white hover:bg-red-500 w-28 py-1 rounded"
             onClick={handlePrevious}
