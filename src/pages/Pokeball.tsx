@@ -1,23 +1,16 @@
-import { useEffect, useState } from "react";
 import Cart from "../components/Cart";
-import { IPokedex } from "../interfaces/Games/Pokedex";
-import { getPokedex } from "../services/pokemon";
+import usePokeballsState from "../store/pokeball";
 
 const Pokeball = () => {
-  const [pokedex, setPokedex] = useState<IPokedex>();
+  const value = usePokeballsState((state) => state.value);
 
-  useEffect(() => {
-    getPokedex(5).then((res) => {
-      setPokedex(res);
-      console.log(res);
-    });
-  }, []);
+  console.log(value);
 
   return (
     <div>
       <div>
-        {pokedex?.pokemon_entries.slice(0, 20).map((e) => (
-          <Cart id={e.entry_number} />
+        {value.map((id) => (
+          <Cart key={id} id={id} />
         ))}
       </div>
     </div>

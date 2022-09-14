@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Search } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [value, setValue] = useState("");
@@ -48,12 +48,12 @@ const Navbar = () => {
         />
       </form>
       <div className="gap-6 flex">
-        <a href="#" className="text-slate-600 hover:text-red-500">
+        <Link to="/favorite" className="text-slate-600 hover:text-red-500">
           Favorite
-        </a>
-        <a href="#" className="text-slate-600 hover:text-red-500">
+        </Link>
+        <Link to="/pokeball" className="text-slate-600 hover:text-red-500">
           Pokéball
-        </a>
+        </Link>
       </div>
     </div>
   );

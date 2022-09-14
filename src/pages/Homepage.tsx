@@ -1,13 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Cart from "../components/Cart";
 import { IPokemonList } from "../interfaces/Pokemon/Pokemon";
-import { getPokemon, getPokemonList } from "../services/pokemon";
+import { getPokemonList } from "../services/pokemon";
 
 const Homepage = () => {
   const [pokemonList, setPokemonList] = useState<IPokemonList>();
   const [page, setPage] = useState(0);
-
 
   useEffect(() => {
     getPokemonList(page).then((res) => {
@@ -36,12 +34,11 @@ const Homepage = () => {
     });
   };
 
-  
   return (
     <div>
       <div>
         {pokemonList?.results.map((result) => (
-          <Cart id={result.name} />
+          <Cart key={result.name} id={result.name} />
         ))}
       </div>
       <div className="my-6 gap-8 flex justify-center">

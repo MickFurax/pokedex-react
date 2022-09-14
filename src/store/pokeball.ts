@@ -1,9 +1,9 @@
 import create from "zustand";
 
 interface PokeballsState {
-  value: (string | number)[];
-  addPokemon: (id: string | number) => void;
-  removePokemon: (id: string | number) => void;
+  value: number[];
+  addPokemon: (id: number) => void;
+  removePokemon: (id: number) => void;
 }
 
 const usePokeballsState = create<PokeballsState>((set) => ({

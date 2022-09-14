@@ -39,6 +39,10 @@ const Cart = (props: Props) => {
     navigate(`/${id}`);
   };
 
+  if (result == undefined) {
+    return null;
+  }
+
   return (
     <div className="mb-px">
       <div
@@ -78,7 +82,7 @@ const Cart = (props: Props) => {
             </div>
           </div>
         </div>
-        <Status id={id}/>
+        <Status id={result.id} />
       </div>
     </div>
   );
