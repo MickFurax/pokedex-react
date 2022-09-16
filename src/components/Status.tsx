@@ -24,12 +24,8 @@ const Status = (props: Props) => {
   const [favoriteActive, setFavoriteActive] = useState(false);
 
   useEffect(() => {
-    if (value.includes(id)) {
-      setPokeballActive(true);
-    }
-    if (favoriteValue.includes(id)) {
-      setFavoriteActive(true);
-    }
+    setFavoriteActive(favoriteValue.includes(id));
+    setPokeballActive(value.includes(id));
   }, [id]);
 
   const handleClickPokeball = () => {

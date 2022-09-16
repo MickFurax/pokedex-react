@@ -8,6 +8,7 @@ import { typeColorMap } from "../constants/pokemon";
 import type { PokemonType } from "../types/pokemon";
 import Status from "./Status";
 import Evolution from "./Evolution";
+import Cart from "./Cart";
 
 interface Props {
   result: IPokemon;
@@ -36,53 +37,12 @@ const PokemonProfil = (props: Props) => {
     .filter((e) => e.language.name == "en")[0]
     .flavor_text?.replace("\n", " ")
     .replace("\f", " ")
-    .replace("POKéMON", "POKÉMON");
-
-  const sprite = result.sprites?.front_default;
-  const name = result.name;
-  const types: PokemonType[] | undefined = result.types.map(
-    (e) => e.type?.name as unknown as PokemonType
-  );
-
-  const spriteColor = typeColorMap[types?.[0] || "normal"];
+    .replace("POKéMON", "POKEMON");
 
   return (
     <div>
-      <div
-        className="flex justify-between"
-        style={{ backgroundColor: spriteColor }}
-      >
-        <div className="flex items-center">
-          <img
-            src={sprite}
-            alt={name}
-            className="md:h-72 md:w-72 sm:h-52 sm:w-52 h-32 w-32 sprite shrink-0"
-          />
-          <div className="capitalize mb-2">
-            <span className="text-3xl font-semibold text-white flex flex-row md:text-7xl sm:text-6xl">
-              <p>{name}</p>
-              <p className="opacity-[.125] text-black pl-4 md:pl-8 sm:pl-5">
-                #{result.id}
-              </p>
-            </span>
-            <div className="flex gap-3 md:mt-2 sm:mt-1 mt-2">
-              {types?.map((pokemonType) => (
-                <div
-                  key={pokemonType}
-                  className="
-                  bg-white w-min p-1 pr-3 sm:pr-4 rounded-full flex items-center text-xs md:text-base sm:text-sm "
-                >
-                  <div
-                    className="w-3 h-3 rounded-full mx-1 md:mx-2"
-                    style={{ backgroundColor: typeColorMap[pokemonType] }}
-                  ></div>
-                  {pokemonType}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <Status id={result.id} />
+      <div>
+        <Cart id={result.id} />
       </div>
       <main className="md:m-10 sm:m-6 m-3 text-slate-800">
         <div className="mt-2">
