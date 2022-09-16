@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Star } from "react-feather";
 import { Pokeball, Stars } from "tabler-icons-react";
 import pokeball from "../assets/pokeball.png";
@@ -20,11 +20,25 @@ const Status = (props: Props) => {
   const addFavorite = useFavoritesState((state) => state.addFavorite);
   const removeFavorite = useFavoritesState((state) => state.removeFavorite);
 
+  const [pokeballActive, setPokeballActive] = useState(false);
+  const [favoriteActive, setFavoriteActive] = useState(false);
+
+  useEffect(() => {
+    if (value.includes(id)) {
+      setPokeballActive(true);
+    }
+    if (favoriteValue.includes(id)) {
+      setFavoriteActive(true);
+    }
+  }, [id]);
+
   const handleClickPokeball = () => {
     if (!value.includes(id)) {
       addPokemon(id);
+      setPokeballActive(true);
     } else {
       removePokemon(id);
+      setPokeballActive(false);
     }
     console.log(value);
   };
@@ -32,23 +46,25 @@ const Status = (props: Props) => {
   const handleClickFavorite = () => {
     if (!favoriteValue.includes(id)) {
       addFavorite(id);
+      setFavoriteActive(true);
     } else {
       removeFavorite(id);
+      setFavoriteActive(false);
     }
   };
   return (
-    <div className="flex cursor-pointer">
+    <div className="flex ">
       <button
         onClick={handleClickPokeball}
-        className="rounded-full mt-auto m-0 mr-1 mb-1 md:mr-4 md:mb-4 sm:mr-2 sm:mb-2"
+        className="rounded-full cursor-pointer mt-auto m-0 mr-1 mb-1 md:mr-4 md:mb-4 sm:mr-2 sm:mb-2 p-2 bg-white"
       >
-        <Pokeball />
+        <Pokeball className={pokeballActive ? "text-red-500" : ""} />
       </button>
       <button
         onClick={handleClickFavorite}
-        className="rounded-full mt-auto m-0 mr-1 mb-1 md:mr-4 md:mb-4 sm:mr-2 sm:mb-2"
+        className="rounded-full cursor-pointer mt-auto m-0 mr-1 mb-1 md:mr-4 md:mb-4 sm:mr-2 sm:mb-2 p-2 bg-white"
       >
-        <Star />
+        <Star className={favoriteActive ? "text-red-500" : ""} />
       </button>
     </div>
   );

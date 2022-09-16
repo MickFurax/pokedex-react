@@ -11,12 +11,3 @@
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
-
-.icon {
-  opacity: 0.2;
-}
-
-.pngActive {
-  filter: brightness(0) invert(1);
-  opacity: 1;
-}
