@@ -1,20 +1,18 @@
-import create from "zustand";
+export const addPokeball = (id: number): void => {
+  const rawPokeball = localStorage.getItem("pokeball");
 
-interface PokeballsState {
-  value: number[];
-  addPokemon: (id: number) => void;
-  removePokemon: (id: number) => void;
-}
+  const pokeball = rawPokeball == null ? [] : JSON.parse(rawPokeball);
+  pokeball.push(id);
+  localStorage.setItem("pokeball", JSON.stringify(pokeball));
+};
+export const removePokeball = (id: number): void => {
+  const rawPokeball = localStorage.getItem("pokeball");
 
-const usePokeballsState = create<PokeballsState>((set) => ({
-  value: [],
-
-  addPokemon: (id) =>
-    set((state) => ({
-      value: state.value.includes(id) ? state.value : [...state.value, id],
-    })),
-  removePokemon: (id) =>
-    set((state) => ({ value: state.value.filter((value) => value != id) })),
-}));
-
-export default usePokeballsState;
+  const pokeball = rawPokeball == null ? [] : JSON.parse(rawPokeball);
+  pokeball.filter((e: number) => e != id);
+  localStorage.setItem("pokeball", JSON.stringify(pokeball));
+};
+export const getPokeball = (): number[] => {
+  const rawPokeball = localStorage.getItem("pokeball");
+  return rawPokeball == null ? [] : JSON.parse(rawPokeball);
+};

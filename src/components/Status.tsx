@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { Star } from "react-feather";
 import { Pokeball, Stars } from "tabler-icons-react";
-import pokeball from "../assets/pokeball.png";
 import useFavoritesState from "../store/favorite";
-import usePokeballsState from "../store/pokeball";
+import { getPokeball, addPokeball, removePokeball } from "../store/pokeball";
 
 interface Props {
   id: number;
@@ -11,10 +10,6 @@ interface Props {
 
 const Status = (props: Props) => {
   const { id } = props;
-
-  const value = usePokeballsState((state) => state.value);
-  const addPokemon = usePokeballsState((state) => state.addPokemon);
-  const removePokemon = usePokeballsState((state) => state.removePokemon);
 
   const favoriteValue = useFavoritesState((state) => state.favoriteValue);
   const addFavorite = useFavoritesState((state) => state.addFavorite);
@@ -25,18 +20,18 @@ const Status = (props: Props) => {
 
   useEffect(() => {
     setFavoriteActive(favoriteValue.includes(id));
-    setPokeballActive(value.includes(id));
+    setPokeballActive(getPokeball().includes(id));
   }, [id]);
 
   const handleClickPokeball = () => {
-    if (!value.includes(id)) {
-      addPokemon(id);
+    console.log(getPokeball());
+    if (!getPokeball().includes(id)) {
+      addPokeball(id);
       setPokeballActive(true);
     } else {
-      removePokemon(id);
+      removePokeball(id);
       setPokeballActive(false);
     }
-    console.log(value);
   };
 
   const handleClickFavorite = () => {

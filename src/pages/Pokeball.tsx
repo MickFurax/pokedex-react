@@ -1,15 +1,11 @@
 import Cart from "../components/Cart";
-import usePokeballsState from "../store/pokeball";
+import { getPokeball } from "../store/pokeball";
 
 const Pokeball = () => {
-  const value = usePokeballsState((state) => state.value);
-
-  console.log(value);
-
   return (
     <div>
       <div>
-        {value.map((id) => (
+        {getPokeball().map((id) => (
           <Cart key={id} id={id} />
         ))}
       </div>
