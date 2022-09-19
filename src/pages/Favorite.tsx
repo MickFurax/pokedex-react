@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Cart from "../components/Cart";
 import { getFavorite } from "../store/favorite";
 
 const Favorite = () => {
   const [favorite, setFavorite] = useState<number[]>([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -11,6 +14,16 @@ const Favorite = () => {
     }, 500);
     return () => clearInterval(interval);
   }, []);
+
+  const home = () => {
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (getFavorite().length == 0) {
+      home();
+    }
+  }, [favorite]);
 
   return (
     <div>
