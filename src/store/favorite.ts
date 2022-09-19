@@ -9,8 +9,10 @@ export const removeFavorite = (id: number): void => {
   const rawFavorite = localStorage.getItem("favorite");
 
   const favorite = rawFavorite == null ? [] : JSON.parse(rawFavorite);
-  favorite.filter((e: number) => e != id);
-  localStorage.setItem("favorite", JSON.stringify(favorite));
+  localStorage.setItem(
+    "favorite",
+    JSON.stringify(favorite.filter((e: number) => e != id))
+  );
 };
 export const getFavorite = (): number[] => {
   const rawFavorite = localStorage.getItem("favorite");

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Star } from "react-feather";
-import { Pokeball, Stars } from "tabler-icons-react";
+import { Pokeball, Star } from "tabler-icons-react";
 import { addFavorite, getFavorite, removeFavorite } from "../store/favorite";
 import { getPokeball, addPokeball, removePokeball } from "../store/pokeball";
 

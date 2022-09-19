@@ -1,11 +1,21 @@
+import { useEffect, useState } from "react";
 import Cart from "../components/Cart";
 import { getFavorite } from "../store/favorite";
 
 const Favorite = () => {
+  const [favorite, setFavorite] = useState<number[]>([]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFavorite(getFavorite());
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
       <div>
-        {getFavorite().map((id: number) => (
+        {favorite.map((id: number) => (
           <Cart key={id} id={id} />
         ))}
       </div>
