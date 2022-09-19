@@ -16,3 +16,4 @@ export const getPokeball = (): number[] => {
   const rawPokeball = localStorage.getItem("pokeball");
   return rawPokeball == null ? [] : JSON.parse(rawPokeball);
 };
+  
