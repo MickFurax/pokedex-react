@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Star } from "react-feather";
 import { Pokeball, Stars } from "tabler-icons-react";
-import useFavoritesState from "../store/favorite";
+import { addFavorite, getFavorite, removeFavorite } from "../store/favorite";
 import { getPokeball, addPokeball, removePokeball } from "../store/pokeball";
 
 interface Props {
@@ -11,16 +11,12 @@ interface Props {
 const Status = (props: Props) => {
   const { id } = props;
 
-  const favoriteValue = useFavoritesState((state) => state.favoriteValue);
-  const addFavorite = useFavoritesState((state) => state.addFavorite);
-  const removeFavorite = useFavoritesState((state) => state.removeFavorite);
-
   const [pokeballActive, setPokeballActive] = useState(false);
   const [favoriteActive, setFavoriteActive] = useState(false);
 
   useEffect(() => {
-    setFavoriteActive(favoriteValue.includes(id));
     setPokeballActive(getPokeball().includes(id));
+    setFavoriteActive(getFavorite().includes(id));
   }, [id]);
 
   const handleClickPokeball = () => {
@@ -35,7 +31,8 @@ const Status = (props: Props) => {
   };
 
   const handleClickFavorite = () => {
-    if (!favoriteValue.includes(id)) {
+    console.log(getFavorite());
+    if (!getFavorite().includes(id)) {
       addFavorite(id);
       setFavoriteActive(true);
     } else {
@@ -43,6 +40,7 @@ const Status = (props: Props) => {
       setFavoriteActive(false);
     }
   };
+
   return (
     <div className="flex ">
       <button

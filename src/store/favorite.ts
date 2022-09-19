@@ -1,26 +1,18 @@
-import create from "zustand";
+export const addFavorite = (id: number): void => {
+  const rawFavorite = localStorage.getItem("favorite");
 
-interface FavoritesState {
-  favoriteValue: number[];
-  addFavorite: (id: number) => void;
-  removeFavorite: (id: number) => void;
-}
+  const favorite = rawFavorite == null ? [] : JSON.parse(rawFavorite);
+  favorite.push(id);
+  localStorage.setItem("favorite", JSON.stringify(favorite));
+};
+export const removeFavorite = (id: number): void => {
+  const rawFavorite = localStorage.getItem("favorite");
 
-const useFavoritesState = create<FavoritesState>((set) => ({
-  favoriteValue: [],
-
-  addFavorite: (id) =>
-    set((state) => ({
-      favoriteValue: state.favoriteValue.includes(id)
-        ? state.favoriteValue
-        : [...state.favoriteValue, id],
-    })),
-  removeFavorite: (id) =>
-    set((state) => ({
-      favoriteValue: state.favoriteValue.filter(
-        (favoriteValue) => favoriteValue != id
-      ),
-    })),
-}));
-
-export default useFavoritesState;
+  const favorite = rawFavorite == null ? [] : JSON.parse(rawFavorite);
+  favorite.filter((e: number) => e != id);
+  localStorage.setItem("favorite", JSON.stringify(favorite));
+};
+export const getFavorite = (): number[] => {
+  const rawFavorite = localStorage.getItem("favorite");
+  return rawFavorite == null ? [] : JSON.parse(rawFavorite);
+};

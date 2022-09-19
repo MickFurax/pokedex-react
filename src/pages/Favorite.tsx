@@ -1,15 +1,11 @@
 import Cart from "../components/Cart";
-import useFavoritesState from "../store/favorite";
+import { getFavorite } from "../store/favorite";
 
 const Favorite = () => {
-  const favoriteValue = useFavoritesState((state) => state.favoriteValue);
-
-  console.log(favoriteValue);
-
   return (
     <div>
       <div>
-        {favoriteValue.map((id: number) => (
+        {getFavorite().map((id: number) => (
           <Cart key={id} id={id} />
         ))}
       </div>
